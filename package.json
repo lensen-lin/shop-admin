@@ -14,7 +14,7 @@
     "vue": "^3.2.41"
   },
   "lint-staged": {
-    "src/**/*.{js,vue}": [
+    "src/**/*.{js,vue, ts}": [
       "npm run lint",
       "git add ."
     ]
