@@ -1,7 +1,54 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import eslint from 'vite-plugin-eslint'
+import vueJsx from '@vitejs/plugin-vue-jsx'
+import path from 'path'
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue(), eslint()]
+  plugins: [
+    vue(),
+    eslint(),
+    vueJsx(),
+    AutoImport({
+      resolvers: [ElementPlusResolver()]
+    }),
+    Components({
+      resolvers: [ElementPlusResolver()]
+    })
+  ],
+  resolve: {
+    alias: {
+      '@': path.join(__dirname, 'src')
+    }
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: '@import "@/styles/variables.scss";'
+      }
+    }
+  },
+  server: {
+    proxy: {
+      // 选项写法
+      '/rtx-admin': {
+        target: 'http://ectbao.imdo.co',
+        // 兼容基于名字的虚拟主机
+        // a.com localhost:xxx
+        // b.com localhost:xxx
+        // HTTP 请求头部的 origin 字段
+        // 默认的 origin 是真实的 origin: localhost:3000
+        // changeOrigin: true 代理服务会把 origin 修改 为目标地址 http://jsonplaceholder.typicode.com
+        changeOrigin: true
+
+        // 路径重写
+        // http://jsonplaceholder.typicode.com/api/xxx
+        // /api/xxx => http://jsonplaceholder.typicode.com/xxx
+        // rewrite: (path) => path.replace(/^\/rtx-admin/, ""),
+      }
+    }
+  }
 })

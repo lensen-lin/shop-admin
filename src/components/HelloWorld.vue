@@ -1,13 +1,7 @@
-<script setup lang="ts">
-import { ref } from 'vue'
-
-// defineProps<{ msg: string }>();
-
-const count = ref(0)
-</script>
-
 <template>
-  <h1>{{ msg }}</h1>
+  <h1 ref="title">
+    {{ msg }}
+  </h1>
 
   <div class="card">
     <button
@@ -40,8 +34,31 @@ const count = ref(0)
   <p class="read-the-docs">
     Click on the Vite and Vue logos to learn more
   </p>
+  <Foo msg="hello" />
 </template>
 
+<script setup lang="tsx">
+import { ref, onMounted } from 'vue'
+import Foo from './foo'
+defineProps({
+  abc: {
+    type: String,
+    required: true
+  },
+  msg: {
+    type: String,
+    required: true
+  }
+})
+/* eslint-disable-next-line */
+const title = ref<HTMLHeadElement | null>(null)
+onMounted(() => {
+  console.log(title)
+})
+// defineProps<{ msg: string }>();
+
+const count = ref(0)
+</script>
 <style scoped>
 .read-the-docs {
   color: #888;
