@@ -22,6 +22,7 @@ module.exports = {
     '@typescript-eslint/triple-slash-reference': 'off',
     'vue/multi-word-component-names': 'off',
     '@typescript-eslint/promise-function-async': 'off',
-    '@typescript-eslint/explicit-function-return-type': 'off'
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    'vue/v-on-event-hyphenation': 'off'
   }
 }

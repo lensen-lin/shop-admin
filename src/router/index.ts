@@ -1,10 +1,23 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
-
+import busiRoutes from './modules/busi'
+import Layout from '@/layout/layout.vue'
+import nprogress from 'nprogress'
+import 'nprogress/nprogress.css'
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    name: 'home',
-    component: async () => await import('../views/home/index.vue')
+    component: Layout,
+    children: [
+      {
+        path: '',
+        name: 'home',
+        component: async () => await import('../views/home/index.vue'),
+        meta: {
+          title: '首页'
+        }
+      },
+      busiRoutes
+    ]
   },
   {
     path: '/login',
@@ -17,4 +30,11 @@ const router = createRouter({
   routes
 })
 
+router.beforeEach(() => {
+  nprogress.start()
+})
+
+router.afterEach(() => {
+  nprogress.done()
+})
 export default router
